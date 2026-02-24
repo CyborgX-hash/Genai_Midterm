@@ -133,6 +133,28 @@ with col2:
     ax2.set_title("Area vs Sale Price")
     st.pyplot(fig2)
 
+
+# Correlation Heatmap
+st.markdown("### 🔥 Feature Correlation Heatmap")
+num_cols = ['Sale Price', 'Estimated Value', 'carpet_area', 'num_bathrooms', 'num_rooms', 'property_tax_rate']
+corr_matrix = df[num_cols].corr()
+
+fig_corr, ax_corr = plt.subplots(figsize=(8, 5))
+sns.heatmap(
+    corr_matrix,
+    annot=True,
+    fmt=".2f",
+    cmap="coolwarm",
+    linewidths=0.5,
+    ax=ax_corr,
+    cbar_kws={"shrink": 0.8}
+)
+ax_corr.set_title("Correlation Between Numerical Features", color='white')
+ax_corr.tick_params(colors='white')
+fig_corr.patch.set_facecolor('#0E1117')
+ax_corr.set_facecolor('#1E1E2F')
+st.pyplot(fig_corr)
+
 st.markdown("---")
 
 # -------------------------
