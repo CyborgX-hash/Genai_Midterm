@@ -129,8 +129,8 @@ def remove_outliers_iqr(df, column):
     upper = Q3 + 1.5 * IQR
     return df[(df[column] >= lower) & (df[column] <= upper)]
 
-for col in ['Sale Price','Estimated Value','carpet_area']:
-    df = remove_outliers_iqr(df, col)
+for col in ['Sale Price','Estimated Value', 'carpet_area']:
+    df = remove_outliers_iqr(df,col)
 
 # -------------------------------------------------
 # MARKET INSIGHTS
@@ -155,7 +155,7 @@ with col2:
     st.pyplot(fig2)
 
 # Heatmap
-st.markdown("### 🔥 Feature Correlation Heatmap")
+st.markdown("### 🔥 Feature Correlation Heatmap ")
 num_cols = ['Sale Price', 'Estimated Value', 'carpet_area',
             'num_bathrooms', 'num_rooms', 'property_tax_rate']
 corr_matrix = df[num_cols].corr()
@@ -176,7 +176,7 @@ st.pyplot(fig_corr)
 st.markdown('</div>', unsafe_allow_html=True)
 
 # -------------------------------------------------
-# MODEL TRAINING (UNCHANGED)
+# MODEL TRAINING 
 # -------------------------------------------------
 feature_columns = [
     "property_tax_rate",
@@ -219,7 +219,7 @@ m1.metric("R² Score", round(r2_score(y_test, y_pred), 4))
 m2.metric("Mean Absolute Error", round(mean_absolute_error(y_test, y_pred), 2))
 m3.metric("RMSE", rmse)
 
-# Predicted vs Actual
+# Predicted vs Actual data 
 st.markdown("### 📈 Predicted vs Actual Sale Price")
 fig_pred, ax_pred = plt.subplots(figsize=(7, 4))
 ax_pred.scatter(y_test, y_pred, alpha=0.5)
@@ -230,7 +230,7 @@ ax_pred.set_ylabel("Predicted Price")
 ax_pred.set_title("Predicted vs Actual Sale Price")
 st.pyplot(fig_pred)
 
-st.markdown('</div>', unsafe_allow_html=True)
+st.markdown('</div>', unsafe_allow_html= True)
 
 # -------------------------------------------------
 # FEATURE IMPORTANCE
@@ -251,16 +251,16 @@ if "Random Forest" in model_choice:
 
 # -------------------------------------------------
 # PREDICTION SECTION
-# -------------------------------------------------
+
 st.markdown('<div class="section-box">', unsafe_allow_html=True)
-st.markdown("## 🧮 Predict Property Price")
+st.markdown("##  🧮 Predict Property Price ")
 
 colA, colB = st.columns(2)
 input_data = {}
 
 with colA:
-    input_data["property_tax_rate"] = st.number_input("Property Tax Rate", value=1.0)
-    input_data["carpet_area"] = st.number_input("Carpet Area (sq ft)", value=1000.0)
+    input_data["property_tax_rate"] = st.number_input("Property Tax Rates", value=1.0)
+    input_data["carpet_area"] = st.number_input("Carpet Area (sq ft.)", value=1000.0)
     input_data["num_bathrooms"] = st.number_input("Bathrooms", value=2)
     input_data["num_rooms"] = st.number_input("Rooms", value=3)
 
