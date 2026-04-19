@@ -593,3 +593,42 @@ def retrieve_market(query: str, vs) -> List[str]:
         return [d.page_content for d in vs.similarity_search(query, k=4)]
     except Exception as e:
         return [f"Retrieval error: {e}"]
+    
+# =============================================================================
+# LLM
+# =============================================================================
+@st.cache_resource
+def get_llm():
+    try:
+        return pipeline("text2text-generation", model="google/flan-t5-base")
+    except Exception as e:
+        logger.error(f"LLM init failed: {e}"); return None
+
+def generate_advice(input_data, price, market, llm) -> str:
+    if llm is None: return "AI advisor unavailable."
+    prop = (
+        f"Carpet Area: {input_data.get('carpet_area','N/A')} sq ft | "
+        f"Rooms: {input_data.get('num_rooms','N/A')} | "
+        f"Bathrooms: {input_data.get('num_bathrooms','N/A')} | "
+        f"Tax Rate: {input_data.get('property_tax_rate','N/A')}% | "
+        f"Estimated Value: Rs {input_data.get('Estimated Value',0):,.0f} | "
+        f"Year: {input_data.get('Year','N/A')}"
+    )
+    mkt = " | ".join(market[:3])
+    prompt = (
+        "You are a certified real estate investment advisor in India. "
+        "Only answer about real estate. Do not invent price figures. "
+        f"Property: {prop}\nPredicted Price: Rs {price:,.0f}\nMarket: {mkt}\n\n"
+        "Provide:\n1. Valuation Summary\n2. Recommendation (Buy/Hold/Avoid)\n"
+        "3. Key Risk Factors\n4. Final Advice\n5. Disclaimer"
+    )
+    try:
+        result = llm(prompt, max_new_tokens=300, truncation=True)
+        advice = result[0]["generated_text"].strip()
+        if not advice or len(advice) < 20:
+            return "AI advisor could not generate a response for these inputs."
+        if any(p in advice.lower() for p in ["ignore previous","disregard","jailbreak"]):
+            return "Suspicious output detected. Please try again."
+        return advice
+    except Exception as e:
+        return f"Advice generation failed: {e}"
