@@ -681,3 +681,19 @@ def build_graph():
     g.add_edge("comps","advisor")
     g.add_edge("advisor", END)
     return g.compile()
+
+# =============================================================================
+# INITIALISE RESOURCES
+# =============================================================================
+df_raw         = load_data()
+df_clean       = clean_data(df_raw)
+model, feature_columns, model_metrics = train_model(df_clean)
+vectorstore    = get_vectorstore()
+llm            = get_llm()
+agent_app      = build_graph()
+
+st.session_state["model"]           = model
+st.session_state["feature_columns"] = feature_columns
+st.session_state["vectorstore"]     = vectorstore
+st.session_state["llm"]             = llm
+st.session_state["df_raw"]          = df_raw
