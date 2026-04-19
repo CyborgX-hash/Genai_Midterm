@@ -728,3 +728,16 @@ with st.sidebar:
         st.markdown(f'<span class="pill">{pill}</span>', unsafe_allow_html=True)
     st.markdown("<br><br>", unsafe_allow_html=True)
     st.caption("EstateAI v2.0 · For informational use only")
+
+# =============================================================================
+# HERO BANNER
+# =============================================================================
+st.markdown("""
+<div class="hero-banner">
+    <div class="hero-badge">🏠 AI-Powered Real Estate Intelligence</div>
+    <div class="hero-title">Estate<span>AI</span></div>
+    <p class="hero-sub">
+        Agentic property valuation &nbsp;·&nbsp; FAISS market retrieval &nbsp;·&nbsp; Structured investment advisory
+    </p>
+</div>
+""", unsafe_allow_html=True)
