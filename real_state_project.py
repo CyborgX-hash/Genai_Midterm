@@ -418,3 +418,15 @@ hr { border-color: var(--border) !important; margin: 2rem 0 !important; }
 
 </style>
 """, unsafe_allow_html=True)
+
+# =============================================================================
+# TYPED STATE
+# =============================================================================
+class AgentState(TypedDict):
+    input:           Dict[str, Any]
+    predicted_price: float
+    market_data:     List[str]
+    comps:           List[Dict]
+    final_advice:    str
+    model_metrics:   Dict[str, float]
+    error:           str
