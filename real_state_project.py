@@ -495,3 +495,10 @@ def validate_input(data: Dict[str, Any]) -> List[str]:
     if data["Estimated Value"] <= 0:                 errors.append("Estimated value must be positive.")
     if not (1900 <= data["Year"] <= 2030):           errors.append("Year must be 1900–2030.")
     return errors
+
+# =============================================================================
+# PREDICTION
+# =============================================================================
+def predict_price(input_data, mdl, feature_columns) -> float:
+    filled = {col: input_data.get(col, 0) for col in feature_columns}
+    return float(mdl.predict(pd.DataFrame([filled]))[0])
