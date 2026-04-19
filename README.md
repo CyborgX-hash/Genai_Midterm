@@ -1,129 +1,71 @@
-# 🏠 EstateAI — Intelligent Real Estate Price Prediction
+# 🏠 EstateAI v2.0 — AI-Powered Real Estate Intelligence
 
-**Milestone 1 – ML-Based Property Price Prediction System**
+**Agentic Property Valuation · FAISS Market Retrieval · Structured Investment Advisory**
 
 ---
 
 ## 📖 Overview
 
-EstateAI is a Machine Learning-based property price prediction platform built with **Streamlit**. It analyzes historical real estate listing data and predicts sale prices based on structured features such as location, carpet area, and amenities.
+EstateAI is an advanced, AI-powered real estate investment platform built with **Streamlit** and **LangGraph**. It combines traditional Machine Learning property price prediction with a Retrieval-Augmented Generation (RAG) agentic workflow to deliver comprehensive, data-driven investment advisory reports.
 
 ---
 
-## 🎯 Objective
+## 🎯 Objectives & Capabilities
 
-- Build an end-to-end ML pipeline for property price prediction
-- Perform data preprocessing & feature engineering
-- Train and compare regression models
-- Evaluate performance using standard metrics
-- Deploy with a user-friendly interactive interface
-
----
-
-## 🧠 Features Used for Prediction
-
-| Feature Type       | Examples                        |
-|--------------------|---------------------------------|
-| 📍 Location        | Locality (one-hot encoded)      |
-| 📐 Property Size   | Carpet Area (sq ft)             |
-| 🛏 Rooms           | Bedrooms, Bathrooms             |
-| 🏠 Other Attributes| Property type, Face, Residential|
-| 📅 Date            | Year, Month extracted from Date |
-| 💰 Valuation       | Estimated Market Value          |
+- **Predictive Valuation**: ML-based price prediction using a Random Forest model.
+- **Market Intelligence (RAG)**: Retrieves relevant real estate market patterns and laws using **FAISS** vector search and HuggingFace sentence embeddings.
+- **Comparable Properties (Comps)**: Dynamically filters the historical dataset to find similar properties and compares their valuation details.
+- **AI Investment Advisor**: Leverages the `google/flan-t5-base` LLM to generate structured advisory insights (Valuation Summary, Recommendation, Risk Factors).
+- **Agentic Workflow**: Orchestrated by **LangGraph**, ensuring sequential, structured execution from prediction to final advice.
 
 ---
 
-## ⚙️ Technical Implementation
+## 🔄 System Workflow (LangGraph)
 
-### 🔹 1. Data Preprocessing
-- Handling missing values (mode/median imputation)
-- Encoding categorical variables (`pd.get_dummies`)
-- IQR-based outlier removal on `Sale Price`, `Estimated Value`, `carpet_area`
-- Date feature extraction (month, day)
+The application models its logic as a typel-safe state graph moving through the following sequential nodes:
 
-### 🔹 2. Machine Learning Models
-
-| Model | Details |
-|-------|---------|
-| 🌲 **Random Forest Regressor** | Recommended — captures non-linear patterns |
-| 📈 **Linear Regression** | Baseline comparison model |
-
-### 🔹 3. Evaluation Metrics
-
-| Metric | Description |
-|--------|-------------|
-| **R² Score** | Measures explained variance |
-| **MAE** (Mean Absolute Error) | Average prediction error |
-| **RMSE** (Root Mean Squared Error) | Penalizes large errors |
+1. **`predict_node`**: Predicts property price using a pre-trained Random Forest model.
+2. **`rag_node`**: Uses FAISS to query a knowledge corpus of Indian real estate market trends based on property specifications.
+3. **`comps_node`**: Scans the dataset for comparable properties (+/- 30% area matching room count).
+4. **`advisor_node`**: Ingests property metrics, predicted price, and retrieved market insights into an LLM (`Flan-T5`) to formulate structured advice.
 
 ---
 
-## 📊 Dashboard Features
+## 🧠 Tech Stack & Requirements
 
-- **Market Insights**: Box plot of Sale Price distribution + Area vs Price scatter plot
-- **Correlation Heatmap**: Heatmap of correlations between key numerical features (Sale Price, Estimated Value, Carpet Area, Rooms, Bathrooms, Tax Rate)
-- **Model Performance**: R², MAE, and RMSE metric cards
-- **Predicted vs Actual Chart**: Scatter plot comparing predictions to ground truth
-- **Feature Importance**: Top 10 most influential features (Random Forest only)
-- **Price Predictor**: Interactive form to get instant price predictions
+- **UI Framework**: Streamlit (with Custom Luxury CSS)
+- **Machine Learning**: `scikit-learn`, `pandas`, `numpy`
+- **Agent Orchestration**: `langgraph`
+- **RAG & Embeddings**: `faiss-cpu`, `langchain`, `sentence-transformers`
+- **LLM**: `transformers`, `torch` (`google/flan-t5-base`)
 
----
+### 📦 Installation
 
-## 🔄 System Workflow
-
-1. Load Dataset (`V3.csv`)
-2. Data Cleaning & Preprocessing
-3. Feature Engineering (encoding + date extraction)
-4. Outlier Removal (IQR method)
-5. Model Training (Random Forest / Linear Regression)
-6. Model Evaluation (R², MAE, RMSE)
-7. Visualizations & Real-Time Prediction via Streamlit UI
-
----
-
-## 🚀 Deployment
-
-The application is deployed using **Streamlit Community Cloud**.
-
-> ⚠️ Localhost-only deployment is not accepted.
-
----
-
-## 📦 Requirements
-
-```
-streamlit
-pandas
-numpy
-scikit-learn
-matplotlib
-seaborn
-```
-
-Install with:
+Ensure you have Python 3.10+ installed, then install the dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-Run locally:
+### 🚀 Usage
+
+Run the Streamlit application locally:
 ```bash
 streamlit run real_state_project.py
 ```
 
 ---
 
-## 📊 Milestone 1 Deliverables
+## 📊 Evaluation Metrics (Random Forest)
 
-- ✔️ Working ML-based price prediction system
-- ✔️ Proper preprocessing & feature engineering
-- ✔️ Performance evaluation (R², MAE, RMSE)
-- ✔️ Predicted vs Actual visualization
-- ✔️ Feature importance chart
-- ✔️ Publicly deployed application
-- ✔️ Clean, modular, and well-documented codebase
+The predictive model is evaluated on standard regression metrics displayed in the sidebar:
+| Metric | Description |
+|--------|-------------|
+| **R² Score** | Measures variance explained by the model |
+| **MAE** | Mean Absolute Error (Average prediction error in INR) |
+| **RMSE** | Root Mean Squared Error (Penalizes large errors) |
 
 ---
 
-## 🏁 Conclusion
+## ⚖️ Disclaimer
 
-EstateAI establishes a strong foundation in classical machine learning for real estate price prediction, ensuring robust preprocessing, reliable model evaluation with three metrics (R², MAE, RMSE), and an interactive Streamlit dashboard with feature importance and prediction visualizations.
+This application and the generated reports are for **informational and educational purposes only**. They do not constitute professional financial, investment, or legal advice. Predictions are based on historical data and LLMs. Always consult a certified investment advisor before making financial decisions.

@@ -13,9 +13,7 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 from transformers import pipeline
 from langgraph.graph import StateGraph, END 
 
-# =============================================================================
-# PAGE CONFIG — must be first
-# =============================================================================
+
 st.set_page_config(
     page_title="EstateAI",
     page_icon="🏠",
@@ -27,9 +25,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-# =============================================================================
-# GLOBAL CSS — Luxury Real Estate Theme
-# =============================================================================
+
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
